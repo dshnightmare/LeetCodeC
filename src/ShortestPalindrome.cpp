@@ -1,23 +1,18 @@
-#include <string>
-using namespace std;
-
 class Solution {
 public:
     string shortestPalindrome(string s) {
-        string pre = "";
-		for(int i = s.length(); i >= 0; i--){
-			if(isPalindrome(pre + s))
-				return pre + s;
-			pre.push_back(s[i - 1]);
-		}
+        string rev_s = s;
+        reverse(rev_s.begin(), rev_s.end());
+        string l = s + "#" + rev_s;
+
+        vector<int> p(l.size(), 0);
+        for (int i = 1; i < l.size(); i++) {
+            int j = p[i - 1];
+            while (j > 0 && l[i] != l[j])
+                j = p[j - 1];
+            p[i] = (j += l[i] == l[j]);
+        }
+
+        return rev_s.substr(0, s.size() - p[l.size() - 1]) + s;
     }
-	
-	bool isPalindrome(string s){
-		int i = 0, j = s.length() - 1;
-		while(i < j){
-			if(s[i++] != s[j--])
-				return false;
-		}
-		return true;
-	}
 };
