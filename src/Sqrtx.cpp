@@ -6,9 +6,15 @@ public:
 	int sqrt(int x){
 		if(x == 0)
 			return 0;
-		else if(x == 1)
-			return 1;
-		return bsearch(1, x, x);
+		int ret = (1 + x) / 2;
+		while(1){
+			int tmp = (ret + x / ret) / 2;
+			if(tmp >= ret)
+				break;
+			else
+				ret = tmp;
+		}
+		return ret;
 	}
 	
 	int bsearch(int left, int right, int x){
@@ -27,6 +33,6 @@ public:
 
 int main(){
 	Solution s;
-	cout << s.sqrt(6) << endl;
+	cout << s.sqrt(5) << endl;
 	return 0;
 }
